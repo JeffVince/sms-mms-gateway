@@ -1,5 +1,17 @@
+*.iml
+.gradle
+/local.properties
+.idea/
+.DS_Store
+/build
+/app/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Legacy Ant build artifacts
 bin
 gen
 nbandroid
 private
-local.properties

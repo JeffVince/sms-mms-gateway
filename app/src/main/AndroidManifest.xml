@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_MMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <application android:name="org.envaya.sms.App"
+        android:icon="@drawable/icon" android:label="@string/app_name">
+        <activity android:name="org.envaya.sms.ui.Main" android:label="@string/app_name" android:noHistory="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="org.envaya.sms.ui.LogView" android:label="@string/log_view_title"
+            android:exported="false">
+        </activity>
+
+        <activity android:name="org.envaya.sms.ui.Help" android:label="@string/help_title"
+            android:exported="false">
+        </activity>
+
+        <activity android:name="org.envaya.sms.ui.TestPhoneNumbers" android:label="@string/test_phone_numbers_title"
+            android:exported="false">
+        </activity>
+
+        <activity android:name="org.envaya.sms.ui.IgnoredPhoneNumbers" android:label="@string/ignored_phone_numbers_title"
+            android:exported="false">
+        </activity>
+
+        <activity android:name="org.envaya.sms.ui.MessagingSmsInbox" android:label="@string/forward_saved_title"
+            android:exported="false">
+        </activity>
+
+        <activity android:name="org.envaya.sms.ui.MessagingMmsInbox" android:label="@string/forward_saved_title"
+            android:exported="false">
+        </activity>
+
+        <activity android:name="org.envaya.sms.ui.MessagingSentSms" android:label="@string/forward_saved_title"
+            android:exported="false">
+        </activity>
+
+        <activity android:name="org.envaya.sms.ui.PendingMessages" android:label="@string/pending_messages_title"
+            android:exported="false">
+        </activity>
+
+        <activity android:name="org.envaya.sms.ui.Prefs" android:label="@string/settings_title"
+            android:exported="false">
+        </activity>
+
+        <activity android:name="org.envaya.sms.ui.ExpansionPacks" android:label="..."
+            android:exported="false">
+        </activity>
+
+        <receiver android:name="org.envaya.sms.receiver.SmsReceiver"
+            android:exported="true">
+            <intent-filter android:priority="101">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="org.envaya.sms.receiver.OutgoingSmsReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="org.envaya.sms.OUTGOING_SMS" />
+                <data android:scheme="content" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="org.envaya.sms.receiver.MessageStatusNotifier"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="org.envaya.sms.MESSAGE_STATUS" />
+                <data android:scheme="content" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="org.envaya.sms.receiver.NudgeReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="org.envaya.sms.NUDGE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!--
+            we don't really use message delivery notifications yet...
+
+        <receiver android:name=".receiver.MessageDeliveryNotifier" android:exported="true">
+            <intent-filter>
+                <action android:name="org.envaya.sms.MESSAGE_DELIVERY" />
+                <data android:scheme="content" />
+            </intent-filter>
+        </receiver>
+        -->
+
+        <receiver android:name="org.envaya.sms.receiver.DequeueOutgoingMessageReceiver"
+            android:exported="false">
+        </receiver>
+
+        <receiver android:name="org.envaya.sms.receiver.OutgoingMessageTimeout"
+            android:exported="false">
+        </receiver>
+
+        <receiver android:name="org.envaya.sms.receiver.OutgoingMessagePoller"
+            android:exported="false">
+        </receiver>
+
+        <receiver android:name="org.envaya.sms.receiver.OutgoingMessageRetry"
+            android:exported="false">
+        </receiver>
+
+        <receiver android:name="org.envaya.sms.receiver.IncomingMessageRetry"
+            android:exported="false">
+        </receiver>
+
+        <receiver android:name="org.envaya.sms.receiver.ReenableWifiReceiver"
+            android:exported="false">
+        </receiver>
+
+        <receiver android:name="org.envaya.sms.receiver.StartAmqpConsumer"
+            android:exported="false">
+        </receiver>
+
+        <receiver android:name="org.envaya.sms.receiver.ExpansionPackInstallReceiver"
+            android:exported="true">
+            <intent-filter>
+                 <action android:name="android.intent.action.PACKAGE_ADDED" />
+                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                 <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="org.envaya.sms.receiver.ConnectivityChangeReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="org.envaya.sms.receiver.DeviceStatusReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+                <action android:name="android.intent.action.BATTERY_LOW" />
+                <action android:name="android.intent.action.BATTERY_OKAY" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Default SMS app: Required to receive SMS_DELIVER broadcasts on KitKat+ -->
+        <receiver android:name="org.envaya.sms.receiver.SmsDeliverReceiver"
+            android:permission="android.permission.BROADCAST_SMS"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_DELIVER" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Default SMS app: Required to receive MMS -->
+        <receiver android:name="org.envaya.sms.receiver.MmsReceiver"
+            android:permission="android.permission.BROADCAST_WAP_PUSH"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER" />
+                <data android:mimeType="application/vnd.wap.mms-message" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Default SMS app: Respond-via-message service -->
+        <service android:name="org.envaya.sms.service.HeadlessSmsSendService"
+            android:permission="android.permission.SEND_RESPOND_VIA_MESSAGE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.RESPOND_VIA_MESSAGE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="sms" />
+                <data android:scheme="smsto" />
+                <data android:scheme="mms" />
+                <data android:scheme="mmsto" />
+            </intent-filter>
+        </service>
+
+        <!-- Default SMS app: Compose SMS activity -->
+        <activity android:name="org.envaya.sms.ui.ComposeSmsActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SENDTO" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="sms" />
+                <data android:scheme="smsto" />
+                <data android:scheme="mms" />
+                <data android:scheme="mmsto" />
+            </intent-filter>
+        </activity>
+
+        <service android:name="org.envaya.sms.service.CheckMessagingService"
+            android:exported="false">
+        </service>
+
+        <service android:name="org.envaya.sms.service.EnabledChangedService"
+            android:exported="false">
+        </service>
+
+        <service android:name="org.envaya.sms.service.ForegroundService"
+            android:exported="false">
+        </service>
+
+        <service android:name="org.envaya.sms.service.AmqpConsumerService"
+            android:exported="false">
+        </service>
+
+        <service android:name="org.envaya.sms.service.AmqpHeartbeatService"
+            android:exported="false">
+        </service>
+    </application>
+</manifest>
